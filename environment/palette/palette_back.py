@@ -13,5 +13,5 @@ class blueberry_palette():
 
         self.viz = palette_viz(self)
 
-    def run_viz(self, screen, spot):
-        self.viz.draw_palette(screen, spot)
+    def run_viz(self, screen, spot, gap_x=0, gap_y=0):
+        self.viz.draw_palette(screen, spot, gap_x=0, gap_y=0)

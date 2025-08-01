@@ -33,8 +33,26 @@ class freezer_viz():
             pg.draw.rect(self.screen, (50,50,50), (x, y, self.CELL_SIZE, self.CELL_SIZE), 1)
 
 
-    def draw_storage(self):
+    def draw_storage(self, x = 960, y = 170 ):
         pg.draw.rect(self.screen, (100, 150, 190), (950, 150, 500, 200), 10)
+        taken_space = []
+        for idx, palette in enumerate(self.freezer.palettes_to_take):
+           
+           if idx > 9:
+               print(f"Too many palettes: {idx + 1}")
+               break
+           if  (x, y) in taken_space:
+            #   x += 90 * ((idx) - (idx) // 5 * 5)
+              x += 90 
+
+              if idx +1 == 1:
+                 y = 0
+              if (idx + 1) % 6 == 0:
+                 y += 90
+                 x = 960
+         #   print(f'idx: {idx}, x: {x}, y: {y}')
+           palette.viz.draw_palette(self.screen, idx + 1, x, y)
+           taken_space.append((palette.viz.palette_x, palette.viz.palette_y))
        
     def draw_status(self):
        font = pg.font.SysFont(None, 30)
@@ -64,8 +82,6 @@ class freezer_viz():
        self.draw_grid()
        self.draw_storage()
        self.draw_status()
-       for idx, palette in enumerate(self.freezer.palettes_to_take):
-           palette.run_viz(self.screen, idx + 1)
        pg.display.flip()
        self.clock.tick(30)
 
@@ -78,7 +94,7 @@ class freezer_viz():
 
          #  print(f'xd: {len(self.freezer.palettes_to_take)}')
           for palette_space in self.freezer.palettes_to_take:
-             print(f"Palette space xd?")
+            #  print(f"Palette space xd?")
              pos = pg.mouse.get_pos()
              if palette_space.viz.rect.collidepoint(pos):
                 print(f"Mouse over palette space")
