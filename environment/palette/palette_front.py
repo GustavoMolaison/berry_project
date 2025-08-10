@@ -9,6 +9,7 @@ class palette_viz():
         self.texture = pg.image.load('environment\palette\img_palette\palette.png')
         self.texture = pg.transform.scale(self.texture, (80, 80))
         self.gap_y = 0
+        self.show = False
 
         self.palette = palette
         self.palette_size = (80, 80)
@@ -23,9 +24,12 @@ class palette_viz():
 
         self.palette_x = x
         self.palette_y = y
+        self.screen = screen
         
         screen.blit(self.texture, (self.palette_x, self.palette_y))
         self.rect = pg.Rect(self.palette_x, self.palette_y, *self.palette_size)
         
-        
-        # pg.draw.rect(screen, (65, 200, 133), (960 + gap_x, 170 + self.gap_y, 80, 80))
+    def show_info(self):
+       
+        if self.show:
+           pg.draw.rect(self.screen, (255, 255, 255), (self.palette_x + 80, self.palette_y, 80, 150))

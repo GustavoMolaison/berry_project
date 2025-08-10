@@ -77,14 +77,18 @@ class freezer_viz():
     def Main_loop(self):
      running = True
      inside_start_time = None
+     show_info = False
      while running:
        
        self.draw_grid()
        self.draw_storage()
        self.draw_status()
-       pg.display.flip()
        self.clock.tick(30)
-
+       for palette in self.freezer.palettes_to_take:
+          palette.viz.show_info()
+       
+       pg.display.flip()
+          
        dt = self.clock.tick(60) / 1000  # Delta time in seconds
        self.screen.fill((30,30,30))
 
@@ -93,20 +97,23 @@ class freezer_viz():
             running = False
 
          #  print(f'xd: {len(self.freezer.palettes_to_take)}')
-          for palette_space in self.freezer.palettes_to_take:
+          for palette in self.freezer.palettes_to_take:
             #  print(f"Palette space xd?")
              pos = pg.mouse.get_pos()
-             if palette_space.viz.rect.collidepoint(pos):
+             if palette.viz.rect.collidepoint(pos):
                 print(f"Mouse over palette space")
                 if inside_start_time is None:
-                   print("Mouse entered palette space")
+                   
                    inside_start_time = pg.time.get_ticks()
                 else:
-                   print("Mouse still inside palette space")
+                  
                    elapsed_time = (pg.time.get_ticks() - inside_start_time) / 1000
                    if elapsed_time > 1:
                        print("Mouse inside for 1.5 seconds!")
                        inside_start_time = None # 1 second threshold
+                       palette.viz.show = True
+             else:
+                       palette.viz.show = False    
           
             
           if event.type == pg.KEYDOWN:
