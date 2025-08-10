@@ -33,7 +33,7 @@ class freezer_viz():
             pg.draw.rect(self.screen, (50,50,50), (x, y, self.CELL_SIZE, self.CELL_SIZE), 1)
 
 
-    def draw_storage(self, x = 960, y = 170 ):
+    def draw_storage(self, x = 960, y = 170, p_idx =None):
         pg.draw.rect(self.screen, (100, 150, 190), (950, 150, 500, 200), 10)
         taken_space = []
         for idx, palette in enumerate(self.freezer.palettes_to_take):
@@ -51,7 +51,7 @@ class freezer_viz():
                  y += 90
                  x = 960
          #   print(f'idx: {idx}, x: {x}, y: {y}')
-           palette.viz.draw_palette(self.screen, idx + 1, x, y)
+           palette.viz.draw_palette(self.screen, idx + 1, x, y, p_idx)
            taken_space.append((palette.viz.palette_x, palette.viz.palette_y))
        
     def draw_status(self):
@@ -64,7 +64,7 @@ class freezer_viz():
 
 
     # === TOGGLE CELL ON CLICK ===
-    def handle_mouse(self):
+    def grid_handle(self):
       mx, my = pg.mouse.get_pos()
       col, row = mx // self.CELL_SIZE, my // self.CELL_SIZE
       if 0 <= row < self.ROWS and 0 <=  col < self.COLS:
@@ -78,10 +78,11 @@ class freezer_viz():
      running = True
      inside_start_time = None
      show_info = False
+     p_idx = None
      while running:
        
        self.draw_grid()
-       self.draw_storage()
+       self.draw_storage(p_idx=p_idx)
        self.draw_status()
        self.clock.tick(30)
        for palette in self.freezer.palettes_to_take:
@@ -101,15 +102,15 @@ class freezer_viz():
             #  print(f"Palette space xd?")
              pos = pg.mouse.get_pos()
              if palette.viz.rect.collidepoint(pos):
-                print(f"Mouse over palette space")
+               #  print(f"Mouse over palette space")
                 if inside_start_time is None:
                    
                    inside_start_time = pg.time.get_ticks()
                 else:
                   
                    elapsed_time = (pg.time.get_ticks() - inside_start_time) / 1000
-                   if elapsed_time > 1:
-                       print("Mouse inside for 1.5 seconds!")
+                   if elapsed_time > 0.5:
+                     #   print("Mouse inside for 1.5 seconds!")
                        inside_start_time = None # 1 second threshold
                        palette.viz.show = True
              else:
@@ -123,9 +124,21 @@ class freezer_viz():
           elif event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1: # Left click
                pos = pg.mouse.get_pos()
-               self.handle_mouse()
-            elif event.button == 3: # Right click
-               print(f"Right Mouse clicked at: {pos}")
+               self.grid_handle()
+               
+               for idx, palette in enumerate(self.freezer.palettes_to_take):
+                 pos = pg.mouse.get_pos()
+                 if palette.viz.rect.collidepoint(pos):
+                    
+                    print('ok')
+                    palette.chosen = not palette.chosen
+                    p_idx = idx
+               for palette in self.freezer.palettes_to_take:
+                  print(palette.chosen)
+                   
+                  
+            # elif event.button == 3: # Right click
+               # print(f"Right Mouse clicked at: {pos}")
     
     # update_self.temperature()
       #  self.draw_grid()
