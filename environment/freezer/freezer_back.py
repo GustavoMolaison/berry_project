@@ -13,6 +13,7 @@ class freezer():
        self.screen = self.viz.screen
        self.grid = self.viz.grid
        self.palettes_to_take = []
+       self.palettes_whole = []
 
     def state(self):
         # Initialize the state of the freezer 
@@ -24,6 +25,7 @@ class freezer():
     def add_palette(self, palette):
         # Add a palette to the freezer
         self.palettes_to_take.append(palette)
+        self.palettes_whole.append(palette)
          # Example placeholder for palette
         
         

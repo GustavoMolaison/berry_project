@@ -20,17 +20,26 @@ class freezer_viz():
        self.temperature = 5.0
        self.cooling_on = True
 
+      # === TEXTURES ===
+       self.pallete_texture = pg.image.load('environment\palette\img_palette\palette.png')
+       self.pallete_texture = pg.transform.scale(self.pallete_texture, (self.CELL_SIZE -3, self.CELL_SIZE -3))
+
 
        
 
     
     def draw_grid(self):
+       color = (200, 220, 255)
        for row in range(self.ROWS):
          for col in range(self.COLS):
             x, y = col * self.CELL_SIZE, row * self.CELL_SIZE
-            color = (200, 220, 255) if self.grid[row][col] == 0 else (255, 0, 0)
-            pg.draw.rect(self.screen, color, (x, y, self.CELL_SIZE, self.CELL_SIZE))
-            pg.draw.rect(self.screen, (50,50,50), (x, y, self.CELL_SIZE, self.CELL_SIZE), 1)
+            
+
+            if self.grid[row][col] == 0:
+               pg.draw.rect(self.screen, color, (x, y, self.CELL_SIZE, self.CELL_SIZE))
+               pg.draw.rect(self.screen, (30, 30, 30), (x, y, self.CELL_SIZE, self.CELL_SIZE), 1)
+            else: 
+               self.grid[row][col].viz.draw_palette(self.screen, None, x, y, None)
 
 
     def draw_storage(self, x = 960, y = 170, p_idx =None):
@@ -64,11 +73,19 @@ class freezer_viz():
 
 
     # === TOGGLE CELL ON CLICK ===
-    def grid_handle(self):
+    def grid_handle(self, picked_palette):
       mx, my = pg.mouse.get_pos()
       col, row = mx // self.CELL_SIZE, my // self.CELL_SIZE
       if 0 <= row < self.ROWS and 0 <=  col < self.COLS:
-         self.grid[row][col] = 1 - self.grid[row][col]
+         if not picked_palette == None:
+           if picked_palette.chosen:
+
+            self.grid[row][col] = picked_palette
+
+            picked_palette.viz.placed = not picked_palette.viz.placed
+            
+            if picked_palette in self.freezer.palettes_to_take:
+              self.freezer.palettes_to_take.remove(picked_palette)
 
 
 
@@ -78,14 +95,15 @@ class freezer_viz():
      running = True
      inside_start_time = None
      show_info = False
-     p_idx = None
+     last_pallette_idx = None
+     self.picked_palette = None
      while running:
        
        self.draw_grid()
-       self.draw_storage(p_idx=p_idx)
+       self.draw_storage(p_idx=last_pallette_idx)
        self.draw_status()
        self.clock.tick(30)
-       for palette in self.freezer.palettes_to_take:
+       for palette in self.freezer.palettes_whole:
           palette.viz.show_info()
        
        pg.display.flip()
@@ -98,7 +116,7 @@ class freezer_viz():
             running = False
 
          #  print(f'xd: {len(self.freezer.palettes_to_take)}')
-          for palette in self.freezer.palettes_to_take:
+          for palette in self.freezer.palettes_whole:
             #  print(f"Palette space xd?")
              pos = pg.mouse.get_pos()
              if palette.viz.rect.collidepoint(pos):
@@ -124,17 +142,25 @@ class freezer_viz():
           elif event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1: # Left click
                pos = pg.mouse.get_pos()
-               self.grid_handle()
+               self.grid_handle(self.picked_palette)
                
                for idx, palette in enumerate(self.freezer.palettes_to_take):
                  pos = pg.mouse.get_pos()
                  if palette.viz.rect.collidepoint(pos):
                     
-                    print('ok')
+                  #   print('ok')
                     palette.chosen = not palette.chosen
-                    p_idx = idx
-               for palette in self.freezer.palettes_to_take:
-                  print(palette.chosen)
+                    last_pallette_idx = idx
+
+                    
+                 self.picked_palette = None
+                 for palette in self.freezer.palettes_to_take:
+                     if palette.chosen:
+                        self.picked_palette = palette
+
+                    
+               # for palette in self.freezer.palettes_to_take:
+               #    print(palette.chosen)
                    
                   
             # elif event.button == 3: # Right click
