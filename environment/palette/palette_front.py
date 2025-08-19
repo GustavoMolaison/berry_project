@@ -8,6 +8,8 @@ class palette_viz():
     
         self.texture = pg.image.load('environment\palette\img_palette\palette.png')
         self.texture = pg.transform.scale(self.texture, (80, 80))
+        self.texture_chosen = pg.image.load('environment\palette\img_palette\palette_chosen.png')
+        self.texture_chosen = pg.transform.scale(self.texture, (80, 80))
         self.gap_y = 0
         self.show = False
 
@@ -43,28 +45,25 @@ class palette_viz():
               #      pallete.chosen = False
               # self.palette.chosen = True
         
-              self.texture = pg.image.load('environment\palette\img_palette\palette_chosen.png')
-              self.texture = pg.transform.scale(self.texture, (80, 80))
+              txt = self.texture_chosen
           else:
-              self.texture = pg.image.load('environment\palette\img_palette\palette.png')
-              self.texture = pg.transform.scale(self.texture, (80, 80))
+              txt = self.texture
 
           self.palette_x = x
           self.palette_y = y
           self.screen = screen
         
-          screen.blit(self.texture, (self.palette_x, self.palette_y))
+          screen.blit(txt, (self.palette_x, self.palette_y))
           self.rect = pg.Rect(self.palette_x, self.palette_y, *self.palette_size)
         
         else:
             self.palette_x = x
             self.palette_y = y
             self.screen = screen
-            self.texture = pg.image.load('environment\palette\img_palette\palette.png')
-            self.texture = pg.transform.scale(self.texture, (self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3))
+            txt = pg.transform.scale(self.texture, (self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3))
             
 
-            screen.blit(self.texture, (self.palette_x, self.palette_y))
+            screen.blit(txt, (self.palette_x, self.palette_y))
             self.rect = pg.Rect(self.palette_x, self.palette_y, self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3)
            
         

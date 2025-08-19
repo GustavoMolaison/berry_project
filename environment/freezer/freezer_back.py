@@ -8,8 +8,8 @@ class freezer():
     def __init__(self, capacity: tuple):
        self.capacity = capacity
        self.viz = freezer_viz(self.capacity, self)
-       self.temperature = self.viz.temperature
-       self.cooling_on = self.viz.cooling_on
+       self.temperature = 5
+       self.cooling_on = True
        self.screen = self.viz.screen
        self.grid = self.viz.grid
        self.palettes_to_take = []

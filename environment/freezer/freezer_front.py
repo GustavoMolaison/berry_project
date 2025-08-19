@@ -14,11 +14,11 @@ class freezer_viz():
        # === self.GRID CONFIG ===
        self.ROWS, self.COLS = capacity[0], capacity[1]
        self.CELL_SIZE = 90
-
+       
        # === STATE ===
        self.grid = [[0 for _ in range(self.COLS)] for _ in range(self.ROWS)] # 0 = free, 1 = occupied
-       self.temperature = 5.0
-       self.cooling_on = True
+       
+       
 
       # === TEXTURES ===
        self.pallete_texture = pg.image.load('environment\palette\img_palette\palette.png')
@@ -65,8 +65,8 @@ class freezer_viz():
        
     def draw_status(self):
        font = pg.font.SysFont(None, 30)
-       temp_text = font.render(f"Temp: {self.temperature}°C", True, (255, 255, 255))
-       state_text = font.render(f"Cooling: {'ON' if self.cooling_on else 'OFF'}", True, (255, 255, 255))
+       temp_text = font.render(f"Temp: {self.freezer.temperature}°C", True, (255, 255, 255))
+       state_text = font.render(f"Cooling: {'ON' if self.freezer.cooling_on else 'OFF'}", True, (255, 255, 255))
        self.screen.blit(temp_text,(905, 50))
        self.screen.blit(state_text, (905, 80))
 
