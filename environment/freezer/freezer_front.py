@@ -42,7 +42,7 @@ class freezer_viz():
         pg.draw.rect(self.screen, (100, 150, 190), (950, 150, 500, 200), 10)
         taken_space = []
         for idx, palette in enumerate(self.freezer.palettes_to_take):
-           print(idx)
+           print('len self.freezer.palettes_to_take:', len(self.freezer.palettes_to_take))
            
            if idx > 9:
                print(f"Too many palettes: {idx + 1}")
@@ -95,7 +95,7 @@ class freezer_viz():
      last_pallette_idx = None
      self.picked_palette = None
      while running:
-       
+       self.screen.fill((30, 30, 30))
        self.draw_grid()
        self.draw_storage()
        self.draw_status()

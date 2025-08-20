@@ -15,8 +15,8 @@ class magazine():
         self.freezer.add_palette(blueberry_palette(crates_amount={'thick': 5}, palette_weight=20.0, weight_brutto=50.0, temperature=3.0, freezer = self.freezer))
         self.freezer.add_palette(blueberry_palette(crates_amount={'thick': 5}, palette_weight=20.0, weight_brutto=50.0, temperature=3.0, freezer = self.freezer))
         self.freezer.add_palette(blueberry_palette(crates_amount={'thick': 5}, palette_weight=20.0, weight_brutto=50.0, temperature=3.0, freezer = self.freezer))
-        self.freezer.add_palette(blueberry_palette(crates_amount={'thick': 5}, palette_weight=20.0, weight_brutto=50.0, temperature=3.0, freezer = self.freezer))
-        self.freezer.add_palette(blueberry_palette(crates_amount={'thick': 5}, palette_weight=20.0, weight_brutto=50.0, temperature=3.0, freezer = self.freezer))
+        # self.freezer.add_palette(blueberry_palette(crates_amount={'thick': 5}, palette_weight=20.0, weight_brutto=50.0, temperature=3.0, freezer = self.freezer))
+        # self.freezer.add_palette(blueberry_palette(crates_amount={'thick': 5}, palette_weight=20.0, weight_brutto=50.0, temperature=3.0, freezer = self.freezer))
         
         
         
