@@ -9,13 +9,13 @@ class palette_viz():
         self.texture = pg.image.load('environment\palette\img_palette\palette.png')
         self.texture = pg.transform.scale(self.texture, (80, 80))
         self.texture_chosen = pg.image.load('environment\palette\img_palette\palette_chosen.png')
-        self.texture_chosen = pg.transform.scale(self.texture, (80, 80))
+        self.texture_chosen = pg.transform.scale(self.texture_chosen, (80, 80))
         self.gap_y = 0
         self.show = False
 
         self.palette = palette
         self.palette_size = (80, 80)
-        self.placed = False
+        
         
 
         
@@ -24,7 +24,7 @@ class palette_viz():
     def draw_palette(self, screen, spot, x, y, c_idx):
 
 
-        if self.placed == False:
+        if self.palette.placed == False:
           # if spot == 1:
           #     gap_y = 0
           # if spot % 6 == 0:
@@ -37,14 +37,7 @@ class palette_viz():
                       pallete.chosen = False
             
             
-          if self.palette.chosen:
-              # self.palette.chosen = False
-              # for pallete in self.palette.freezer.palettes_to_take:
-              
-              #   if pallete.chosen:
-              #      pallete.chosen = False
-              # self.palette.chosen = True
-        
+          if self.palette.chosen: 
               txt = self.texture_chosen
           else:
               txt = self.texture

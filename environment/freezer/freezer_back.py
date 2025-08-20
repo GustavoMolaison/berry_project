@@ -11,9 +11,11 @@ class freezer():
        self.temperature = 5
        self.cooling_on = True
        self.screen = self.viz.screen
-       self.grid = self.viz.grid
+       self.ROWS, self.COLS = capacity[0], capacity[1]
+       self.grid = np.zeros((self.ROWS, self.COLS), dtype=int) # 0 = free, 1 = occupied
        self.palettes_to_take = []
        self.palettes_whole = []
+       self.chosen_palette = None
 
     def state(self):
         # Initialize the state of the freezer 
@@ -27,7 +29,31 @@ class freezer():
         self.palettes_to_take.append(palette)
         self.palettes_whole.append(palette)
          # Example placeholder for palette
+
+    def grid_handle(self, square):
+      
+         if self.chosen_palette != None:
+           if self.chosen_palette.chosen:
+            print(f"Grid square clicked: {square}")
+            self.grid[(square[0], square[1])] = self.palettes_whole.index(self.chosen_palette)
+
+            self.chosen_palette.placed = not self.chosen_palette.placed
+            
+            if self.chosen_palette in self.palettes_to_take:
+              print('XD')
+              print(len(self.palettes_to_take))
+              self.palettes_to_take.remove(self.chosen_palette)
+
+    def recieve_input(self, event): # event  -> dictionary
+        if event['PALETTE'] != 0:
+           event['PALETTE'].recieve_input(event)
         
+        if event['PALETTE'] == 0 and event['LEFT_C'] == 1:
+            
+            if event['GRID_SQUARE'] != 0:
+               
+                self.grid_handle(event['GRID_SQUARE'])
+            
         
 if __name__ == "__main__":
   freezer_env = freezer(capacity=(10, 10))
