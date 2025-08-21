@@ -21,43 +21,34 @@ class palette_viz():
         
   
 
-    def draw_palette(self, screen, spot, x, y, c_idx):
+    def draw_palette(self, screen, x, y):
 
-
+      
         if self.palette.placed == False:
-          # if spot == 1:
-          #     gap_y = 0
-          # if spot % 6 == 0:
-          #     gap_y += 90
-         # gap_x = 90 * ((spot-1) - (spot-1) // 5 * 5)
-          if not c_idx == None:
-             if self.palette.chosen:
-              for pallete in self.palette.freezer.palettes_to_take:
-                 if pallete.chosen and self.palette.freezer.palettes_to_take.index(pallete) != c_idx:
-                      pallete.chosen = False
-            
             
           if self.palette.chosen: 
               txt = self.texture_chosen
           else:
               txt = self.texture
-
+          print('XD')
           self.palette_x = x
           self.palette_y = y
           self.screen = screen
         
-          screen.blit(txt, (self.palette_x, self.palette_y))
-          self.rect = pg.Rect(self.palette_x, self.palette_y, *self.palette_size)
+          screen.blit(txt, (x, y))
+          self.rect = pg.Rect(x, y, *self.palette_size)
         
         else:
-            self.palette_x = x
-            self.palette_y = y
+            self.placed_palette_x = x
+            self.placed_palette_y = y
+            # print(' after x, y', x, y)
+            # print(f'placed? {self.palette.placed}')
             self.screen = screen
             txt = pg.transform.scale(self.texture, (self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3))
             
-
-            screen.blit(txt, (self.palette_x, self.palette_y))
-            self.rect = pg.Rect(self.palette_x, self.palette_y, self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3)
+            
+            screen.blit(txt, (x, y))
+            self.rect = pg.Rect(x, y, self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3)
            
         
     def show_info(self):

@@ -31,24 +31,25 @@ class freezer_viz():
             x, y = col * self.CELL_SIZE, row * self.CELL_SIZE
             
 
-            if self.freezer.grid[row][col] == 0:
+            if self.freezer.grid[row][col] == 100:
                pg.draw.rect(self.screen, color, (x, y, self.CELL_SIZE, self.CELL_SIZE))
                pg.draw.rect(self.screen, (30, 30, 30), (x, y, self.CELL_SIZE, self.CELL_SIZE), 1)
             else: 
-               self.freezer.palettes_whole[self.freezer.grid[row][col]].viz.draw_palette(self.screen, None, x, y, None)
+               # print(' before x, y', x, y)
+               self.freezer.palettes_whole[self.freezer.grid[row][col]].viz.draw_palette(self.screen, x, y)
 
 
     def draw_storage(self, x = 960, y = 170, p_idx =None):
         pg.draw.rect(self.screen, (100, 150, 190), (950, 150, 500, 200), 10)
         taken_space = []
         for idx, palette in enumerate(self.freezer.palettes_to_take):
-           print('len self.freezer.palettes_to_take:', len(self.freezer.palettes_to_take))
+        
            
            if idx > 9:
                print(f"Too many palettes: {idx + 1}")
                break
            if  (x, y) in taken_space:
-            #   x += 90 * ((idx) - (idx) // 5 * 5)
+           
               x += 90 
 
               if idx +1 == 1:
@@ -57,7 +58,7 @@ class freezer_viz():
                  y += 90
                  x = 960
          #   print(f'idx: {idx}, x: {x}, y: {y}')
-           palette.viz.draw_palette(self.screen, idx + 1, x, y, p_idx)
+           palette.viz.draw_palette(self.screen, x, y)
            taken_space.append((palette.viz.palette_x, palette.viz.palette_y))
        
     def draw_status(self):
@@ -67,22 +68,6 @@ class freezer_viz():
        self.screen.blit(temp_text,(905, 50))
        self.screen.blit(state_text, (905, 80))
 
-
-
-    # === TOGGLE CELL ON CLICK ===
-    def grid_handle(self, picked_palette):
-      mx, my = pg.mouse.get_pos()
-      col, row = mx // self.CELL_SIZE, my // self.CELL_SIZE
-      if 0 <= row < self.ROWS and 0 <=  col < self.COLS:
-         if not picked_palette == None:
-           if picked_palette.chosen:
-
-            self.grid[row][col] = picked_palette
-
-            picked_palette.viz.placed = not picked_palette.viz.placed
-            
-            if picked_palette in self.freezer.palettes_to_take:
-              self.freezer.palettes_to_take.remove(picked_palette)
 
 
 

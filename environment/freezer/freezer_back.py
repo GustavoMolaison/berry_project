@@ -12,7 +12,7 @@ class freezer():
        self.cooling_on = True
        self.screen = self.viz.screen
        self.ROWS, self.COLS = capacity[0], capacity[1]
-       self.grid = np.zeros((self.ROWS, self.COLS), dtype=int) # 0 = free, 1 = occupied
+       self.grid = np.full((self.ROWS, self.COLS), 100, dtype=int) # 0 = free, 1 = occupied
        self.palettes_to_take = []
        self.palettes_whole = []
        self.chosen_palette = None
@@ -38,10 +38,8 @@ class freezer():
             self.grid[(square[0], square[1])] = self.palettes_whole.index(self.chosen_palette)
 
             self.chosen_palette.placed = not self.chosen_palette.placed
-            
+            self.chosen_palette.chosen = False
             if self.chosen_palette in self.palettes_to_take:
-              print('XD')
-              print(len(self.palettes_to_take))
               self.palettes_to_take.remove(self.chosen_palette)
 
     def recieve_input(self, event): # event  -> dictionary
