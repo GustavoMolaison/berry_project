@@ -28,7 +28,7 @@ class freezer_viz():
        color = (200, 220, 255)
        for row in range(self.freezer.ROWS):
          for col in range(self.freezer.COLS):
-            x, y = col * self.CELL_SIZE, row * self.CELL_SIZE
+            x, y = row * self.CELL_SIZE, col * self.CELL_SIZE
             
 
             if self.freezer.grid[row][col] == 100:
@@ -98,12 +98,32 @@ class freezer_viz():
               for palette in self.freezer.palettes_whole:
                   if palette.viz.rect.collidepoint(pos):
                      action_log['PALETTE'] = palette
-                     print(f"Palette clicked: {palette}")
+                    
+
+                  square = pos[0] // self.CELL_SIZE, pos[1] // self.CELL_SIZE
+                  if square in np.ndindex(self.freezer.grid.shape):
+                    action_log['GRID_SQUARE'] = square
+
+         for palette in self.freezer.palettes_whole:
+            
+               pos = pg.mouse.get_pos()
+               if palette.viz.rect.collidepoint(pos):
+               
+                if inside_start_time is None:
+                   
+                   inside_start_time = pg.time.get_ticks()
+                else:
+                  
+                   elapsed_time = (pg.time.get_ticks() - inside_start_time) / 1000
+                   if elapsed_time > 0.5:
+                       print('Mouse inside for 0.5 seconds!')
+                       inside_start_time = None # 1 second threshold
+                       action_log['HOLD'] = 1
+                       action_log['PALETTE'] = palette
+                  
 
 
-              square = pos[0] // self.CELL_SIZE, pos[1] // self.CELL_SIZE
-              if square in np.ndindex(self.freezer.grid.shape):
-                  action_log['GRID_SQUARE'] = square
+             
                   
                   
          

@@ -30,19 +30,17 @@ class palette_viz():
               txt = self.texture_chosen
           else:
               txt = self.texture
-          print('XD')
+          
           self.palette_x = x
           self.palette_y = y
           self.screen = screen
-        
+          
           screen.blit(txt, (x, y))
           self.rect = pg.Rect(x, y, *self.palette_size)
         
         else:
             self.placed_palette_x = x
             self.placed_palette_y = y
-            # print(' after x, y', x, y)
-            # print(f'placed? {self.palette.placed}')
             self.screen = screen
             txt = pg.transform.scale(self.texture, (self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3))
             
@@ -51,7 +49,7 @@ class palette_viz():
             self.rect = pg.Rect(x, y, self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3)
            
         
-    def show_info(self):
+    def show_info(self, show = False):
         
         rect = pg.Rect(self.palette_x + 80, self.palette_y, 150, 150)
         font = pg.font.SysFont(None, 20)
@@ -64,7 +62,7 @@ class palette_viz():
         netto_surface = font.render(f"Creates: {self.palette.netto} kg", True, (0, 0, 0))
         text_rect = (rect.x + 5, rect.y + 5)
        
-        if self.show:
+        if show == True:
            print(self.palette_x, self.palette_y)
            pg.draw.rect(self.screen, (255, 255, 255), (self.palette_x + 80, self.palette_y, 150, 150))
            pg.draw.rect(self.screen, (100, 255, 255), rect, 3)

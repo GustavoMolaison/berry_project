@@ -51,6 +51,10 @@ class freezer():
             if event['GRID_SQUARE'] != 0:
                
                 self.grid_handle(event['GRID_SQUARE'])
+
+        if event['HOLD'] == 1 and event['PALETTE'] != 0:
+            print('HOLD')
+            event['PALETTE'].viz.show_info(True)
             
         
 if __name__ == "__main__":
