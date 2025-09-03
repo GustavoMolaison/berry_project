@@ -40,7 +40,8 @@ class freezer_viz():
 
 
     def draw_storage(self, x = 960, y = 170, p_idx =None):
-        pg.draw.rect(self.screen, (100, 150, 190), (950, 150, 500, 200), 10)
+        self.storage_rect = pg.Rect(950, 150, 500, 200)  
+        pg.draw.rect(self.screen, (100, 150, 190), self.storage_rect, 10)  
         taken_space = []
         for idx, palette in enumerate(self.freezer.palettes_to_take):
         
@@ -152,7 +153,7 @@ class freezer_viz():
              
                   
                   
-         print(action_log['HOLD'])
+         # print(action_log['HOLD'])
 
          self.freezer.recieve_input(action_log)
 

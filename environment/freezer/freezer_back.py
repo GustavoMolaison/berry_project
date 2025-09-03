@@ -21,6 +21,10 @@ class freezer():
         # Initialize the state of the freezer 
         self.grid = self.viz.grid
 
+    def palette_reset(self):
+        self.chosen_palette.chosen = False
+        self.chosen_palette = None
+
     def run_viz(self):
          self.viz.Main_loop()
 
@@ -35,12 +39,23 @@ class freezer():
          if self.chosen_palette != None:
            if self.chosen_palette.chosen:
             print(f"Grid square clicked: {square}")
+            print(f"Chosen palette: {self.chosen_palette}")
+            print(f"Chosen palette grid: {self.chosen_palette.grid}")
+            print('\n')
+            self.grid[self.chosen_palette.grid] = 100
             self.grid[(square[0], square[1])] = self.palettes_whole.index(self.chosen_palette)
-
-            self.chosen_palette.placed = not self.chosen_palette.placed
-            self.chosen_palette.chosen = False
+            
+            self.chosen_palette.grid = (square[0], square[1])
+            self.chosen_palette.placed = True
+           
+            
             if self.chosen_palette in self.palettes_to_take:
               self.palettes_to_take.remove(self.chosen_palette)
+
+            # We reset the chosen palette
+            # To do that we set BOTH of those attributes to None/False
+            # Setting only one will cause bugs so we use a function to do it
+            self.palette_reset()
 
     def recieve_input(self, event): # event  -> dictionary
         if event['PALETTE'] != 0:
@@ -53,7 +68,6 @@ class freezer():
                 self.grid_handle(event['GRID_SQUARE'])
 
         if event['HOLD'] == 1 and event['PALETTE'] != 0:
-            print('WORK')
             event['PALETTE'].viz.show_info(True)
             
         

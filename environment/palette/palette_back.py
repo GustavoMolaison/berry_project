@@ -13,6 +13,7 @@ class blueberry_palette():
         self.freezer = freezer
         self.placed = False
         self.viz = palette_viz(self)
+        self.grid = None
 
         self.chosen = False
 
@@ -22,9 +23,15 @@ class blueberry_palette():
     def recieve_input(self, event): # event  -> dictionary
         # Handle input events for the palette
         if event['LEFT_C'] == 1:
+            print(f'self.chosen before: {self.chosen}')
+            print(f'self.freezer.chosen_palette before: {self.freezer.chosen_palette}')
             self.chosen = not self.chosen
+            
             if self.freezer.chosen_palette != None:
                    self.freezer.chosen_palette.chosen = False
                    self.freezer.chosen_palette = None
             self.freezer.chosen_palette = self if self.chosen else self.freezer.chosen_palette
+
+            print(f'self.chosen after: {self.chosen}')
+            print(f'self.freezer.chosen_palette after: {self.freezer.chosen_palette}')
            

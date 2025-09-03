@@ -61,10 +61,10 @@ class palette_viz():
         crates_weight_surface = font.render(f"Creates: {crates_string} kg", True, (0, 0, 0))
         netto_surface = font.render(f"Creates: {self.palette.netto} kg", True, (0, 0, 0))
         text_rect = (rect.x + 5, rect.y + 5)
-        print('show info')
+      
         if show == True:
-           print('SHOW IS TRUE ')
-           print(self.palette_x, self.palette_y)
+   
+          
            pg.draw.rect(self.screen, (255, 255, 255), (self.palette_x + 80, self.palette_y, 150, 150))
            pg.draw.rect(self.screen, (100, 255, 255), rect, 3)
            self.screen.blit(Brutto_surface, (rect.x + 5, rect.y + 5))
