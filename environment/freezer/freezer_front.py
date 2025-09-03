@@ -79,6 +79,7 @@ class freezer_viz():
      show_info = False
      last_pallette_idx = None
      self.picked_palette = None
+     action_log = {'PALETTE': 0, 'GRID_SQUARE': 0, 'LEFT_C' : 0, 'HOLD' : 0}
      while running:
        self.screen.fill((30, 30, 30))
        self.draw_grid()
@@ -86,10 +87,10 @@ class freezer_viz():
        self.draw_status()
        self.clock.tick(30)
       
-       pg.display.flip()
-      #  action_log = {'PALETTE': 0, 'GRID_SQUARE': 0, 'LEFT_C' : 0, 'HOLD' : 0}
+      #  pg.display.flip()
+       action_log = {'PALETTE': 0, 'GRID_SQUARE': 0, 'LEFT_C' : 0, 'HOLD' : action_log['HOLD']}
        for event in pg.event.get():
-         action_log = {'PALETTE': 0, 'GRID_SQUARE': 0, 'LEFT_C' : 0, 'HOLD' : 0}
+         # action_log = {'PALETTE': 0, 'GRID_SQUARE': 0, 'LEFT_C' : 0, 'HOLD' : 0}
          if event.type == pg.MOUSEBUTTONDOWN:
               action_log['LEFT_C'] = 1
               pos = pg.mouse.get_pos()
@@ -103,37 +104,63 @@ class freezer_viz():
                   square = pos[0] // self.CELL_SIZE, pos[1] // self.CELL_SIZE
                   if square in np.ndindex(self.freezer.grid.shape):
                     action_log['GRID_SQUARE'] = square
-
+         
+         pos = pg.mouse.get_pos()
+         hovering_palette = None
          for palette in self.freezer.palettes_whole:
+            if palette.viz.rect.collidepoint(pos):
+              hovering_palette = palette
+              break
+
+         if hovering_palette:
+             if inside_start_time is None:
+                 inside_start_time = pg.time.get_ticks()
+             else:
+                 elapsed_time = (pg.time.get_ticks() - inside_start_time) / 1000
+                 if elapsed_time > 0.5:
+                   action_log['HOLD'] = 1
+                   action_log['PALETTE'] = hovering_palette
+         else:
+            inside_start_time = None
+            action_log['HOLD'] = 0
+
             
-               pos = pg.mouse.get_pos()
-               if palette.viz.rect.collidepoint(pos):
+         # for palette in self.freezer.palettes_whole:
+            
+         #       pos = pg.mouse.get_pos()
+         #       if palette.viz.rect.collidepoint(pos):
                
-                if inside_start_time is None:
+         #        if inside_start_time is None:
                    
-                   inside_start_time = pg.time.get_ticks()
-                else:
+         #           inside_start_time = pg.time.get_ticks()
+         #        else:
                   
-                   elapsed_time = (pg.time.get_ticks() - inside_start_time) / 1000
-                   if elapsed_time > 0.5:
-                       print('Mouse inside for 0.5 seconds!')
-                       inside_start_time = None # 1 second threshold
-                       action_log['HOLD'] = 1
-                       action_log['PALETTE'] = palette
+         #           elapsed_time = (pg.time.get_ticks() - inside_start_time) / 1000
+         #           if elapsed_time > 0.5:
+         #               print('Mouse inside for 0.5 seconds!')
+         #               inside_start_time = None # 1 second threshold
+         #               action_log['HOLD'] = 1
+         #               action_log['PALETTE'] = palette
+
+         # pos = pg.mouse.get_pos()
+         # if not any(palette.viz.rect.collidepoint(pos) for palette in self.freezer.palettes_whole):
+         #                #  print('xdd')
+         #                 action_log['HOLD'] = 0
                   
 
 
              
                   
                   
-         
+         print(action_log['HOLD'])
 
          self.freezer.recieve_input(action_log)
 
               
          if event.type == pg.QUIT:
                    running = False
-
+         
+         pg.display.flip()
 
 
 

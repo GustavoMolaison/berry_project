@@ -39,8 +39,8 @@ class palette_viz():
           self.rect = pg.Rect(x, y, *self.palette_size)
         
         else:
-            self.placed_palette_x = x
-            self.placed_palette_y = y
+            self.palette_x = x
+            self.palette_y = y
             self.screen = screen
             txt = pg.transform.scale(self.texture, (self.palette.freezer.viz.CELL_SIZE -3, self.palette.freezer.viz.CELL_SIZE-3))
             
@@ -61,8 +61,9 @@ class palette_viz():
         crates_weight_surface = font.render(f"Creates: {crates_string} kg", True, (0, 0, 0))
         netto_surface = font.render(f"Creates: {self.palette.netto} kg", True, (0, 0, 0))
         text_rect = (rect.x + 5, rect.y + 5)
-       
+        print('show info')
         if show == True:
+           print('SHOW IS TRUE ')
            print(self.palette_x, self.palette_y)
            pg.draw.rect(self.screen, (255, 255, 255), (self.palette_x + 80, self.palette_y, 150, 150))
            pg.draw.rect(self.screen, (100, 255, 255), rect, 3)
